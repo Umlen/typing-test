@@ -1,0 +1,32 @@
+@import "variables.css";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  background-color: var(--primary-light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  padding: 0 1.5em;
+}
+@media (min-width: 700px) {
+  .container {
+    padding: 0 3em;
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    padding: 0 10em;
+  }
+}
+
+.main {
+  flex-grow: 1;
+}

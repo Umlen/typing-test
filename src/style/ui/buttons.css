@@ -1,0 +1,31 @@
+.base-button {
+  display: block;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  padding: .5em 1.5em;
+  margin: 1em auto;
+  border-radius: 7px;
+}
+@media (min-width: 700px) {
+  .base-button {
+    padding: .7em 2em;
+  }
+}
+
+.dark-button {
+  color: var(--simple-white);
+  background-color: var(--primary-dark);
+  border: 2px solid transparent;
+  transition : .2s linear;
+}
+.dark-button:hover {
+  color: var(--primary-dark);
+  background-color: transparent;
+  border: 2px solid var(--decor-color);
+}
+.dark-button:active {
+  box-shadow: inset 2px 2px 5px 1px rgba(var(--primary-dark-rgb), .25);
+}
