@@ -6,7 +6,7 @@ import Text from './Text';
 
 const Test:FunctionComponent = () => {
   return (
-    <section>
+    <section className='test-container'>
       <Text />
     </section>
   );

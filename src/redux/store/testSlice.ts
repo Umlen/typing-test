@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type testState = {
+type TestState = {
   isTestStarted: boolean;
 }
 
-const initialState: testState = {
+const initialState: TestState = {
   isTestStarted: false,
 };
 

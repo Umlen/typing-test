@@ -1,11 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 import getText from '../../api/getText';
 
-import { TextType } from '../../types/type';
+import { TextType } from '../../types/types';
+
+type TextState = {
+  text: TextType[];
+  isLoading: boolean;
+  error: string | null | undefined;
+  currentCharIndex: number;
+}
 
 export const fetchText = createAsyncThunk<string, string, {rejectValue: string}>(
-  'testSlice/fetchText',
+  'textSlice/fetchText',
   async function(sentences: string, {rejectWithValue}) {
     try {
       const response = await getText(sentences);
@@ -17,22 +24,24 @@ export const fetchText = createAsyncThunk<string, string, {rejectValue: string}>
   }
 );
 
-type textState = {
-  text: TextType[];
-  isLoading: boolean;
-  error: string | null | undefined;
-}
-
-const initialState: textState = {
+const initialState: TextState = {
   text: [],
   isLoading: false,
   error: null,
+  currentCharIndex: 0,
 };
 
 const textSlice = createSlice({
   name: 'textSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    setText(state, action: PayloadAction<TextType[]>) {
+      state.text = action.payload;
+    },
+    setCurrentCharIndex(state, action: PayloadAction<number>) {
+      state.currentCharIndex = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchText.pending, (state) => {
@@ -40,7 +49,11 @@ const textSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchText.fulfilled, (state, action) => {
-        state.text = action.payload.split('').map(item => ( {char: item, class: ''} ));
+        state.text = action.payload.split('').map((item, index) => {
+          return index === 0 
+            ? {char: item, class: 'current-char'} 
+            : {char: item, class: ''} 
+        });
         state.isLoading = false;
       })
       .addCase(fetchText.rejected, (state, action) => {
@@ -49,5 +62,7 @@ const textSlice = createSlice({
       });
   }
 });
+
+export const { setText, setCurrentCharIndex } = textSlice.actions;
 
 export default textSlice.reducer;
