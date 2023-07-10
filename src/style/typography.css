@@ -54,6 +54,7 @@ body {
 .error-text {
   color: var(--wrong-color);
   text-align: center;
-  font-size: 3rem;
+  font-size: 2rem;
+  line-height: 1.25em;
   text-transform: uppercase;
 }
