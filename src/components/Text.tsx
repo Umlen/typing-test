@@ -15,9 +15,10 @@ const Text:FunctionComponent = () => {
   const currentCharIndex = useAppSelector(state => state.textSlice.currentCharIndex);
   const mistakes = useAppSelector(state => state.textSlice.mistakes);
   const pressingCount = useAppSelector(state => state.textSlice.pressingCount);
+  const sentences = useAppSelector(state => state.testSlice.sentences);
 
   useEffect(() => {
-    dispatch(fetchText('1'));
+    dispatch(fetchText(sentences));
   }, [dispatch]);
 
   useEffect(() => {

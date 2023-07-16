@@ -9,7 +9,7 @@ type TestState = {
 const initialState: TestState = {
   isTestStarted: false,
   isTestFinished: false,
-  sentences: '1',
+  sentences: '4',
 };
 
 const testSlice = createSlice({
@@ -28,11 +28,16 @@ const testSlice = createSlice({
     resetTestState(state) {
       state.isTestStarted = false;
       state.isTestFinished = false;
-      state.sentences = '1';
+      state.sentences = '4';
     }
   }
 });
 
-export const { setIsTestStarted, setIsTestFinished, setSentences, resetTestState } = testSlice.actions;
+export const { 
+  setIsTestStarted, 
+  setIsTestFinished, 
+  setSentences, 
+  resetTestState 
+} = testSlice.actions;
 
 export default testSlice.reducer;
