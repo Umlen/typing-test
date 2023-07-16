@@ -8,10 +8,12 @@ type GetCurrentCharType = (
 type CompareCharsType = (
   charsArray: TextType[], 
   currentIndex: number,
-  pressedKey: string
+  pressedKey: string,
+  mistakes: number,
 ) => [
   resultArr: TextType[],
   currentIndex: number,
+  mistakes: number
 ];
 
 export const getCurrentChar: GetCurrentCharType = (charsArray, currentIndex) => {
@@ -27,8 +29,9 @@ export const getCurrentChar: GetCurrentCharType = (charsArray, currentIndex) => 
   });
 };
 
-export const compareChars: CompareCharsType = (charsArray, currentIndex, pressedKey) => {
+export const compareChars: CompareCharsType = (charsArray, currentIndex, pressedKey, mistakes) => {
   let newCurrentIndex = currentIndex;
+  let newMistakes = mistakes;
 
   const resultArr = charsArray.map((item, index) => {
     if (index === currentIndex && item.char === pressedKey) {
@@ -38,6 +41,7 @@ export const compareChars: CompareCharsType = (charsArray, currentIndex, pressed
         class: 'right-char'
       };
     } else if (index === currentIndex && item.char !== pressedKey) {
+      newMistakes += 1;
       return {
         ...item,
         class: 'wrong-char'
@@ -47,5 +51,5 @@ export const compareChars: CompareCharsType = (charsArray, currentIndex, pressed
     return item;
   });
 
-  return [resultArr, newCurrentIndex];
+  return [resultArr, newCurrentIndex, newMistakes];
 };

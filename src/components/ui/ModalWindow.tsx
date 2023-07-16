@@ -5,7 +5,7 @@ import '../../style/ui/modal.css';
 type ModalWindowProps = {
   children: JSX.Element | JSX.Element[];
   title: string;
-}
+};
 
 const ModalWindow:FunctionComponent<ModalWindowProps> = ( {children, title} ) => {
   return (

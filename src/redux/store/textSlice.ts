@@ -9,7 +9,9 @@ type TextState = {
   isLoading: boolean;
   error: string | null | undefined;
   currentCharIndex: number;
-}
+  mistakes: number;
+  pressingCount: number;
+};
 
 export const fetchText = createAsyncThunk<string, string, {rejectValue: string}>(
   'textSlice/fetchText',
@@ -29,6 +31,8 @@ const initialState: TextState = {
   isLoading: false,
   error: null,
   currentCharIndex: 0,
+  mistakes: 0,
+  pressingCount: 0
 };
 
 const textSlice = createSlice({
@@ -40,6 +44,12 @@ const textSlice = createSlice({
     },
     setCurrentCharIndex(state, action: PayloadAction<number>) {
       state.currentCharIndex = action.payload;
+    },
+    setMistakes(state, action: PayloadAction<number>) {
+      state.mistakes = action.payload;
+    },
+    increasePressingCount(state) {
+      state.pressingCount = state.pressingCount + 1;
     },
   },
   extraReducers: (builder) => {
@@ -63,6 +73,6 @@ const textSlice = createSlice({
   }
 });
 
-export const { setText, setCurrentCharIndex } = textSlice.actions;
+export const { setText, setCurrentCharIndex,  setMistakes, increasePressingCount } = textSlice.actions;
 
 export default textSlice.reducer;

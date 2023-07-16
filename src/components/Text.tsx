@@ -1,7 +1,8 @@
 import { FunctionComponent, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { fetchText, setText, setCurrentCharIndex } from '../redux/store/textSlice';
+import { fetchText, setText, setCurrentCharIndex, increasePressingCount, setMistakes } from '../redux/store/textSlice';
+import { setIsTimerOn } from '../redux/store/timerSlice';
 
 import { getCurrentChar, compareChars } from '../helpers/charTransform';
 
@@ -11,6 +12,8 @@ const Text:FunctionComponent = () => {
   const isLoading = useAppSelector(state => state.textSlice.isLoading);
   const error = useAppSelector(state => state.textSlice.error);
   const currentCharIndex = useAppSelector(state => state.textSlice.currentCharIndex);
+  const mistakes = useAppSelector(state => state.textSlice.mistakes);
+  const pressingCount = useAppSelector(state => state.textSlice.pressingCount);
 
   useEffect(() => {
     dispatch(fetchText('1'));
@@ -19,24 +22,34 @@ const Text:FunctionComponent = () => {
   useEffect(() => {
     const newText = getCurrentChar(text, currentCharIndex);
     dispatch(setText(newText));
-  }, [currentCharIndex]);
+  }, [dispatch, currentCharIndex]);
 
   useEffect(() => {
-    function keyPressHandler(event: KeyboardEvent) {
-      const [newText, newCurrentIndex] = compareChars(text, currentCharIndex, event.key);
-      
-      if (newCurrentIndex <= text.length) {
-        dispatch(setCurrentCharIndex(newCurrentIndex));
-        dispatch(setText(newText));
-      }
+    if (pressingCount === 0 && text.length > 0) {
+      dispatch(setIsTimerOn(true));
     }
 
-    document.addEventListener('keypress', keyPressHandler);
+    if (currentCharIndex < text.length) {
+      const keyPressHandler = (event: KeyboardEvent) => {
+        const [newText, newCurrentIndex, newMistakes] = compareChars(text, currentCharIndex, event.key, mistakes);
+        
+        dispatch(setCurrentCharIndex(newCurrentIndex));
+        dispatch(setText(newText));
+        dispatch(setMistakes(newMistakes));
+        dispatch(increasePressingCount());
 
-    return () => {
-      document.removeEventListener('keypress', keyPressHandler);
-    };
-  }, [text]);
+        if (newCurrentIndex === text.length) {
+          dispatch(setIsTimerOn(false));
+        }
+      }
+
+      document.addEventListener('keypress', keyPressHandler);
+
+      return () => {
+        document.removeEventListener('keypress', keyPressHandler);
+      };
+    }
+  }, [dispatch, text]);
 
   return (
     <div className='test-text-wrapper'>
