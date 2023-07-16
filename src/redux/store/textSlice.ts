@@ -51,6 +51,11 @@ const textSlice = createSlice({
     increasePressingCount(state) {
       state.pressingCount = state.pressingCount + 1;
     },
+    resetTextState(state) {
+      state.currentCharIndex = 0;
+      state.mistakes = 0;
+      state.pressingCount = 0;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -73,6 +78,12 @@ const textSlice = createSlice({
   }
 });
 
-export const { setText, setCurrentCharIndex,  setMistakes, increasePressingCount } = textSlice.actions;
+export const { 
+  setText, 
+  setCurrentCharIndex,  
+  setMistakes, 
+  increasePressingCount,
+  resetTextState
+} = textSlice.actions;
 
 export default textSlice.reducer;

@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { fetchText, setText, setCurrentCharIndex, increasePressingCount, setMistakes } from '../redux/store/textSlice';
 import { setIsTimerOn } from '../redux/store/timerSlice';
+import { setIsTestFinished } from '../redux/store/testSlice';
 
 import { getCurrentChar, compareChars } from '../helpers/charTransform';
 
@@ -40,6 +41,7 @@ const Text:FunctionComponent = () => {
 
         if (newCurrentIndex === text.length) {
           dispatch(setIsTimerOn(false));
+          dispatch(setIsTestFinished(true));
         }
       }
 

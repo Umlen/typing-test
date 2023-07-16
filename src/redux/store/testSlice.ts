@@ -2,10 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type TestState = {
   isTestStarted: boolean;
+  isTestFinished: boolean;
+  sentences: string;
 }
 
 const initialState: TestState = {
   isTestStarted: false,
+  isTestFinished: false,
+  sentences: '1',
 };
 
 const testSlice = createSlice({
@@ -14,10 +18,21 @@ const testSlice = createSlice({
   reducers: {
     setIsTestStarted(state, action: PayloadAction<boolean>) {
       state.isTestStarted = action.payload;
+    },
+    setIsTestFinished(state, action: PayloadAction<boolean>) {
+      state.isTestFinished = action.payload;
+    },
+    setSentences(state, action: PayloadAction<string>) {
+      state.sentences = action.payload;
+    },
+    resetTestState(state) {
+      state.isTestStarted = false;
+      state.isTestFinished = false;
+      state.sentences = '1';
     }
   }
 });
 
-export const { setIsTestStarted } = testSlice.actions;
+export const { setIsTestStarted, setIsTestFinished, setSentences, resetTestState } = testSlice.actions;
 
 export default testSlice.reducer;

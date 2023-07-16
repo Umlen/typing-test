@@ -16,6 +16,10 @@ type CompareCharsType = (
   mistakes: number
 ];
 
+type restoreTextType = (
+  charsArray: TextType[], 
+) => TextType[];
+
 export const getCurrentChar: GetCurrentCharType = (charsArray, currentIndex) => {
   return charsArray.map((item, index) => {
     if (index === currentIndex) {
@@ -52,4 +56,20 @@ export const compareChars: CompareCharsType = (charsArray, currentIndex, pressed
   });
 
   return [resultArr, newCurrentIndex, newMistakes];
+};
+
+export const restoreText: restoreTextType = (charsArray) => {
+  return charsArray.map((item, index) => {
+    if (index === 0) {
+      return {
+        ...item,
+        class: 'current-char'
+      };
+    }
+
+    return {
+      ...item,
+      class: ''
+    };
+  });
 };
